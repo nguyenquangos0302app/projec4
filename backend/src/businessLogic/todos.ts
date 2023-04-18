@@ -20,13 +20,13 @@ export async function createTodo(
 
   const todoId = uuid.v4();
   const createdAt = new Date().toISOString();
-  const s3AttachmentUrl = attachmentUtils.getAttachmentUrl(todoId);
+  // const s3AttachmentUrl = attachmentUtils.getAttachmentUrl(todoId);
   const newItem = {
     userId,
     todoId,
     createdAt,
     done: false,
-    attachmentUrl: s3AttachmentUrl,
+    // attachmentUrl: s3AttachmentUrl,
     ...newTodo
   };
 
@@ -55,9 +55,16 @@ export async function deleteTodo(
   return todosAccess.deleteTodo(userId, todoId);
 }
 
-export async function createAttachmentPresignedUrl(todoId: string) {
+export async function createAttachmentPresignedUrl(
+  userId: string,
+  todoId: string
+) {
   logger.info('Create attachment todo');
-  return attachmentUtils.getUploadUrl(todoId);
+  const uploadUrl = await attachmentUtils.getUploadUrl(todoId);
+  const s3AttachmentUrl = attachmentUtils.getAttachmentUrl(todoId);
+  await todosAccess.updateTodoAttachmentUrl(userId, todoId, s3AttachmentUrl);
+  // return attachmentUtils.getUploadUrl(todoId);
+  return uploadUrl;
 }
 
 export async function searchTodos(

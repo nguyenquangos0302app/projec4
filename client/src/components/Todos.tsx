@@ -228,12 +228,6 @@ export class Todos extends React.PureComponent<TodosProps, TodosState> {
         {this.state.todos.map((todo, pos) => {
           return (
             <Grid.Row key={todo.todoId}>
-              <Grid.Column width={1} verticalAlign="middle">
-                <Checkbox
-                  onChange={() => this.onTodoCheck(pos)}
-                  checked={todo.done}
-                />
-              </Grid.Column>
               <Grid.Column width={10} verticalAlign="middle">
                 {todo.name}
               </Grid.Column>

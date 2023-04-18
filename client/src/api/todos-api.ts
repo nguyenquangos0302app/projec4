@@ -40,7 +40,7 @@ export async function patchTodo(
   todoId: string,
   updatedTodo: UpdateTodoRequest
 ): Promise<void> {
-  await Axios.patch(
+  await Axios.post(
     `${apiEndpoint}/todos/${todoId}`,
     JSON.stringify(updatedTodo),
     {
