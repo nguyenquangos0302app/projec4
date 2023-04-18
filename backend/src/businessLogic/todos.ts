@@ -59,3 +59,10 @@ export async function createAttachmentPresignedUrl(todoId: string) {
   logger.info('Create attachment todo');
   return attachmentUtils.getUploadUrl(todoId);
 }
+
+export async function searchTodos(
+  userId: string,
+  keyword: string
+): Promise<TodoItem[]> {
+  return todosAccess.searchTodos(userId, keyword);
+}

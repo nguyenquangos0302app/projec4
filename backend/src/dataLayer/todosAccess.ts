@@ -121,4 +121,25 @@ export class TodosAccess {
     const item = result.Attributes;
     return item as TodoItem;
   }
+
+  async searchTodos(userId: string, keyword: string): Promise<TodoItem[]> {
+    console.log('Getting all todo for user ', userId, ' by keyword ', keyword);
+
+    const result = await this.docClient
+      .query({
+        TableName: this.todosTable,
+        KeyConditionExpression: '#userId =:i',
+        ExpressionAttributeNames: {
+          '#userId': 'userId'
+        },
+        ExpressionAttributeValues: {
+          ':i': userId
+        }
+      })
+      .promise();
+
+    let items = result.Items;
+    items = items.filter((item) => item.name.includes(keyword));
+    return items as TodoItem[];
+  }
 }
